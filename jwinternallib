@@ -5192,10 +5192,10 @@ function UILibrary.Section:Dropdown(sett, callback)
     functions.refreshUI = function()
         local String = ""
 
-        for i, v in pairs(options) do
-            local ui = element.OptionHolder.ContentHolder.Content:FindFirstChild(i)
+        for option, value in pairs(options) do
+            local ui = element.OptionHolder.ContentHolder.Content:FindFirstChild(option)
 
-            if options[i] then
+            if value then
                 TweenService:Create(
                     ui.Select,
                     TI,
@@ -5205,9 +5205,9 @@ function UILibrary.Section:Dropdown(sett, callback)
                 ):Play()
 
                 if String == "" then
-                    String = i
+                    String = option
                 else
-                    String = String .. ", " .. i
+                    String = String.. ", ".. option
                 end
             else
                 TweenService:Create(
@@ -5255,76 +5255,85 @@ function UILibrary.Section:Dropdown(sett, callback)
         end
     end
 
-local function updateDropdown()
-    for i, v in pairs(element.OptionHolder.ContentHolder.Content:GetChildren()) do
-        if v:IsA("GuiObject") then
-            v:Destroy()
-        end
-    end
-
-    for i, v in pairs(optionConnections) do
-        v:Disconnect()
-    end
-
-    for option, value in pairs(options) do
-        local Option
-
-        if counter == totalCounter then
-            Option = bottom:Clone()
-        elseif counter ~= 1 then
-            Option = slot:Clone()
-        else
-            Option = top:Clone()
+    local function updateDropdown()
+        for i, v in pairs(element.OptionHolder.ContentHolder.Content:GetChildren()) do
+            if v:IsA("GuiObject") then
+                v:Destroy()
+            end
         end
 
-        Option.Name = option
-        Option.Parent = element.OptionHolder.ContentHolder.Content
-        Option.LayoutOrder = i
-        Option.Size = UDim2.fromScale(1, 1 / totalCounter)
+        for i, v in pairs(optionConnections) do
+            v:Disconnect()
+        end
 
-        Option.Current.Text = option
+        local counter = 0
+        local totalCounter = 0
 
-        table.insert(
-            optionConnections,
-            Option.InputBegan:Connect(
-                function(input, gp)
-                    if gp then
-                        return
+        for i, v in pairs(options) do
+            totalCounter = totalCounter + 1
+        end
+
+        for v, i in pairs(options) do
+            local Option
+
+            counter = counter + 1
+
+            if counter == totalCounter then
+                Option = bottom:Clone()
+            elseif counter ~= 1 then
+                Option = slot:Clone()
+            else
+                Option = top:Clone()
+            end
+
+            Option.Name = v
+            Option.Parent = element.OptionHolder.ContentHolder.Content
+            Option.LayoutOrder = i
+            Option.Size = UDim2.fromScale(1, 1 / totalCounter)
+
+            Option.Current.Text = v
+
+            table.insert(
+                optionConnections,
+                Option.InputBegan:Connect(
+                    function(input, gp)
+                        if gp then
+                            return
+                        end
+
+                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                            functions.setValue(v, not options[v])
+                        elseif input.UserInputType == Enum.UserInputType.MouseMovement then
+                            TweenService:Create(
+                                Option,
+                                TI,
+                                {
+                                    ImageColor3 = Color3.fromRGB(20, 20, 20)
+                                }
+                            ):Play()
+                        end
                     end
-
-                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                        functions.setValue(option, not options[option])
-                    elseif input.UserInputType == Enum.UserInputType.MouseMovement then
-                        TweenService:Create(
-                            Option,
-                            TI,
-                            {
-                                ImageColor3 = Color3.fromRGB(20, 20, 20)
-                            }
-                        ):Play()
-                    end
-                end
+                )
             )
-        )
 
-        table.insert(
-            optionConnections,
-            Option.InputEnded:Connect(
-                function(input, gp)
-                    if input.UserInputType == Enum.UserInputType.MouseMovement then
-                        TweenService:Create(
-                            Option,
-                            TI,
-                            {
-                                ImageColor3 = Color3.fromRGB(25, 25, 25)
-                            }
-                        ):Play()
+            table.insert(
+                optionConnections,
+                Option.InputEnded:Connect(
+                    function(input, gp)
+                        if input.UserInputType == Enum.UserInputType.MouseMovement then
+                            TweenService:Create(
+                                Option,
+                                TI,
+                                {
+                                    ImageColor3 = Color3.fromRGB(25, 25, 25)
+                                }
+                            ):Play()
+                        end
                     end
-                end
+                )
             )
-        )
+        end
     end
-end
 
     updateDropdown()
 
@@ -5352,7 +5361,7 @@ end
             TweenService:Create(
                 element.MainHolder.Content.Icon.Holder,
                 TI,
-                {
+               {
                     Rotation = 180
                 }
             ):Play()
@@ -5361,7 +5370,7 @@ end
                 element.OptionHolder,
                 TI,
                 {
-                    Size = UDim2.fromScale(1, math.clamp(totalCounter, 0, 999) * .7)
+                    Size = UDim2.fromScale(1, math.clamp(totalCounter, 0, 999) *.7)
                 }
             ):Play()
 
@@ -5379,7 +5388,7 @@ end
             element.OptionHolder.Visible = true
 
             task.delay(
-                .4,
+               .4,
                 function()
                     if menuOpen then
                         TweenService:Create(
@@ -5427,7 +5436,7 @@ end
             ):Play()
 
             task.delay(
-                .4,
+               .4,
                 function()
                     if menuOpen then
                         return
@@ -5456,7 +5465,7 @@ end
                         element.MainHolder.Content.Icon.Holder.Icon,
                         TI,
                         {
-                            Position = UDim2.fromScale(0, .2),
+                            Position = UDim2.fromScale(0,.2),
                             ImageColor3 = Color3.fromRGB(50, 50, 50)
                         }
                     ):Play()
@@ -5493,18 +5502,9 @@ end
         functions.setValue(sett.Default, true, true)
     end
 
-    local meta =
-        setmetatable(
-        {
-            element = element,
-            UI = cheatBase
-        },
-        functions
-    )
+    local meta = setmetatable({ element = element, UI = cheatBase }, functions)
 
-    self.oldSelf.oldSelf.oldSelf.UI[self.oldSelf.oldSelf.categoryUI.Name][self.oldSelf.SectionName][
-            self.Section.Name
-        ][sett.Title] = meta
+    self.oldSelf.oldSelf.oldSelf.UI[self.oldSelf.oldSelf.categoryUI.Name][self.oldSelf.SectionName][self.Section.Name][sett.Title] = meta
 
     return meta
 end
