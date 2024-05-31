@@ -5255,85 +5255,76 @@ function UILibrary.Section:Dropdown(sett, callback)
         end
     end
 
-    local function updateDropdown()
-        for i, v in pairs(element.OptionHolder.ContentHolder.Content:GetChildren()) do
-            if v:IsA("GuiObject") then
-                v:Destroy()
-            end
-        end
-
-        for i, v in pairs(optionConnections) do
-            v:Disconnect()
-        end
-
-        local counter = 0
-        local totalCounter = 0
-
-        for i, v in pairs(options) do
-            totalCounter = totalCounter + 1
-        end
-
-        for v, i in pairs(options) do
-            local Option
-
-            counter = counter + 1
-
-            if counter == totalCounter then
-                Option = bottom:Clone()
-            elseif counter ~= 1 then
-                Option = slot:Clone()
-            else
-                Option = top:Clone()
-            end
-
-            Option.Name = v
-            Option.Parent = element.OptionHolder.ContentHolder.Content
-            Option.LayoutOrder = i
-            Option.Size = UDim2.fromScale(1, 1 / totalCounter)
-
-            Option.Current.Text = v
-
-            table.insert(
-                optionConnections,
-                Option.InputBegan:Connect(
-                    function(input, gp)
-                        if gp then
-                            return
-                        end
-
-                        if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                            functions.setValue(v, not options[v])
-                        elseif input.UserInputType == Enum.UserInputType.MouseMovement then
-                            TweenService:Create(
-                                Option,
-                                TI,
-                                {
-                                    ImageColor3 = Color3.fromRGB(20, 20, 20)
-                                }
-                            ):Play()
-                        end
-                    end
-                )
-            )
-
-            table.insert(
-                optionConnections,
-                Option.InputEnded:Connect(
-                    function(input, gp)
-                        if input.UserInputType == Enum.UserInputType.MouseMovement then
-                            TweenService:Create(
-                                Option,
-                                TI,
-                                {
-                                    ImageColor3 = Color3.fromRGB(25, 25, 25)
-                                }
-                            ):Play()
-                        end
-                    end
-                )
-            )
+local function updateDropdown()
+    for i, v in pairs(element.OptionHolder.ContentHolder.Content:GetChildren()) do
+        if v:IsA("GuiObject") then
+            v:Destroy()
         end
     end
+
+    for i, v in pairs(optionConnections) do
+        v:Disconnect()
+    end
+
+    for option, value in pairs(options) do
+        local Option
+
+        if counter == totalCounter then
+            Option = bottom:Clone()
+        elseif counter ~= 1 then
+            Option = slot:Clone()
+        else
+            Option = top:Clone()
+        end
+
+        Option.Name = option
+        Option.Parent = element.OptionHolder.ContentHolder.Content
+        Option.LayoutOrder = i
+        Option.Size = UDim2.fromScale(1, 1 / totalCounter)
+
+        Option.Current.Text = option
+
+        table.insert(
+            optionConnections,
+            Option.InputBegan:Connect(
+                function(input, gp)
+                    if gp then
+                        return
+                    end
+
+                    if input.UserInputType == Enum.UserInputType.MouseButton1 then
+                        functions.setValue(option, not options[option])
+                    elseif input.UserInputType == Enum.UserInputType.MouseMovement then
+                        TweenService:Create(
+                            Option,
+                            TI,
+                            {
+                                ImageColor3 = Color3.fromRGB(20, 20, 20)
+                            }
+                        ):Play()
+                    end
+                end
+            )
+        )
+
+        table.insert(
+            optionConnections,
+            Option.InputEnded:Connect(
+                function(input, gp)
+                    if input.UserInputType == Enum.UserInputType.MouseMovement then
+                        TweenService:Create(
+                            Option,
+                            TI,
+                            {
+                                ImageColor3 = Color3.fromRGB(25, 25, 25)
+                            }
+                        ):Play()
+                    end
+                end
+            )
+        )
+    end
+end
 
     updateDropdown()
 
