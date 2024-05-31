@@ -3259,7 +3259,7 @@ function UILibrary.new(gameName, userId, rank)
     local AspectRatio = Instance.new("UIAspectRatioConstraint", Frame)
     AspectRatio.AspectRatio = 1.2
 
-    Frame.Parent = window.MainUI.Sidebar.ContentHolder.Cheats.
+    Frame.Parent = window.MainUI.Sidebar.ContentHolder.Cheats.Logo
     Frame.ZIndex = 300
 
     local Drag = Draggable.Drag(window.MainUI, Frame)
