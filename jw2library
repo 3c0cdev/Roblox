@@ -566,7 +566,7 @@ function library:InitNotifications(text, duration, callback)
         bar.BackgroundTransparency = 0.200
         bar.Size = UDim2.new(0, 0, 0, 1)
         if type == "notification" then
-            bar.BackgroundColor3 = Color3.fromRGB(255, 255, 0)
+            bar.BackgroundColor3 = Color3.fromRGB(255, 237, 39)
         elseif type == "alert" then
             bar.BackgroundColor3 = Color3.fromRGB(255, 246, 112)
         elseif type == "error" then
@@ -574,7 +574,7 @@ function library:InitNotifications(text, duration, callback)
         elseif type == "success" then
             bar.BackgroundColor3 = Color3.fromRGB(131, 255, 103)
         elseif type == "information" then
-            bar.BackgroundColor3 = Color3.fromRGB(126, 117, 255)
+            bar.BackgroundColor3 = Color3.fromRGB(255, 237, 39)
         end
     
         barCorner.CornerRadius = UDim.new(0, 2)
