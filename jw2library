@@ -24,7 +24,7 @@ PlayerGui = game.Players.LocalPlayer.PlayerGui
 CoreGui = game.CoreGui
 ExperienceChat = game:GetService("CoreGui"):FindFirstChild("ExperienceChat")
 
-if CoreGui and ExperienceChat and ExperienceChat:FindFirstChild("appLayout") and ExperienceChat:FindFirstChild("appLayout"):FindFirstChild("chatInputBar")then
+if CoreGui and ExperienceChat and ExperienceChat:FindFirstChild("appLayout") and ExperienceChat:FindFirstChild("appLayout"):FindFirstChild("chatInputBar") then
     local ChatInputBar = ExperienceChat:FindFirstChild("appLayout"):FindFirstChild("chatInputBar")
     if ChatInputBar then
         ChatTextBox = ChatInputBar:FindFirstChild("Background"):FindFirstChild("Container"):FindFirstChild("TextContainer"):FindFirstChild("TextBoxContainer"):FindFirstChild("TextBox")
