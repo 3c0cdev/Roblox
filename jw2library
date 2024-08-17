@@ -1809,8 +1809,12 @@ function library:Init(key)
                         ChosenKey = InputWait.KeyCode.Name
                     end
                 end)
-    
-                local ChatTextBox = Player.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+                local ChatTextBox
+                if Player.PlayerGui and game:GetService("CoreGui"):FindFirstChild("ExperienceChat"):FindFirstChild("appLayout"):FindFirstChild("chatInputBar"):FindFirstChild("Background"):FindFirstChild("Container"):FindFirstChild("TextContainer"):FindFirstChild("TextBoxContainer"):FindFirstChild("TextBox") then
+                    ChatTextBox = game:GetService("CoreGui"):FindFirstChild("ExperienceChat"):FindFirstChild("appLayout"):FindFirstChild("chatInputBar"):FindFirstChild("Background"):FindFirstChild("Container"):FindFirstChild("TextContainer"):FindFirstChild("TextBoxContainer"):FindFirstChild("TextBox")
+                elseif Player.PlayerGui and Player.PlayerGui:FindFirstChild("Chat") then
+                    ChatTextBox = Player.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+                end
                 if UserInputService.WindowFocused then
                     UserInputService.InputBegan:Connect(function(c, p)
                         if not p then
@@ -2044,7 +2048,12 @@ function library:Init(key)
                 end
             end)
 
-            local ChatTextBox = Player.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+            local ChatTextBox
+            if game:GetService("CoreGui").ExperienceChat.appLayout.chatInputBar.Background.Container.TextContainer.TextBoxContainer.TextBox then
+                ChatTextBox = game:GetService("CoreGui").ExperienceChat.appLayout.chatInputBar.Background.Container.TextContainer.TextBoxContainer.TextBox
+            elseif Player.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar then
+                ChatTextBox = Player.PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+            end
             if UserInputService.WindowFocused then
                 UserInputService.InputBegan:Connect(function(c, p)
                     if not p then
