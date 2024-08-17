@@ -19,6 +19,20 @@ local CoreGuiService = game:GetService("CoreGui")
 local ContentService = game:GetService("ContentProvider")
 local TeleportService = game:GetService("TeleportService")
 
+local ChatTextBox
+PlayerGui = game.Players.LocalPlayer.PlayerGui
+CoreGui = game.CoreGui
+ExperienceChat = game:GetService("CoreGui"):FindFirstChild("ExperienceChat")
+
+if CoreGui and ExperienceChat then
+    local ChatInputBar = ExperienceChat:FindFirstChild("appLayout"):FindFirstChild("chatInputBar")
+    if ChatInputBar then
+        ChatTextBox = ChatInputBar:FindFirstChild("Background"):FindFirstChild("Container"):FindFirstChild("TextContainer"):FindFirstChild("TextBoxContainer"):FindFirstChild("TextBox")
+    end
+elseif PlayerGui and PlayerGui:FindFirstChild("Chat") then
+    ChatTextBox = PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
+end
+
 -- / Tween table & function
 
 local TweenTable = {
@@ -1809,19 +1823,7 @@ function library:Init(key)
                         ChosenKey = InputWait.KeyCode.Name
                     end
                 end)
-                local ChatTextBox
-                PlayerGui = game.Players.LocalPlayer.PlayerGui
-                CoreGui = game.CoreGui
-                ExperienceChat = game:GetService("CoreGui"):FindFirstChild("ExperienceChat")
-                
-                if CoreGui and ExperienceChat then
-                    local ChatInputBar = ExperienceChat:FindFirstChild("appLayout"):FindFirstChild("chatInputBar")
-                    if ChatInputBar then
-                        ChatTextBox = ChatInputBar:FindFirstChild("Background"):FindFirstChild("Container"):FindFirstChild("TextContainer"):FindFirstChild("TextBoxContainer"):FindFirstChild("TextBox")
-                    end
-                elseif PlayerGui and PlayerGui:FindFirstChild("Chat") then
-                    ChatTextBox = PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
-                end
+
                 if UserInputService.WindowFocused then
                     UserInputService.InputBegan:Connect(function(c, p)
                         if not p then
@@ -2055,19 +2057,6 @@ function library:Init(key)
                 end
             end)
 
-            local ChatTextBox
-            PlayerGui = game.Players.LocalPlayer.PlayerGui
-            CoreGui = game.CoreGui
-            ExperienceChat = game:GetService("CoreGui"):FindFirstChild("ExperienceChat")
-            
-            if CoreGui and ExperienceChat then
-                local ChatInputBar = ExperienceChat:FindFirstChild("appLayout"):FindFirstChild("chatInputBar")
-                if ChatInputBar then
-                    ChatTextBox = ChatInputBar:FindFirstChild("Background"):FindFirstChild("Container"):FindFirstChild("TextContainer"):FindFirstChild("TextBoxContainer"):FindFirstChild("TextBox")
-                end
-            elseif PlayerGui and PlayerGui:FindFirstChild("Chat") then
-                ChatTextBox = PlayerGui.Chat.Frame.ChatBarParentFrame.Frame.BoxFrame.Frame.ChatBar
-            end
             if UserInputService.WindowFocused then
                 UserInputService.InputBegan:Connect(function(c, p)
                     if not p then
