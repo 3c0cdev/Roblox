@@ -190,8 +190,8 @@ function DrawingLib.new(drawingType)
 					)
 
 					textLabel.Position = UDim2.fromOffset(position.X, position.Y)
-        elseif index == "Rich" then
-          textLabe.RichText = value
+                elseif index == "Rich" then
+                    textLabel.RichText = value
 				elseif index == "Outline" then
 					uiStroke.Enabled = value
 				elseif index == "OutlineColor" then
